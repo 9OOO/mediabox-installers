@@ -8,6 +8,9 @@ echo "Creating necessary folders..."
     mkdir -p "$HOME"/Stuff/Mount
     mkdir -p "$HOME"/MergerFS
     mkdir -p "$HOME"/.config/systemd/user
+    mkdir -p "$HOME"/.rclone-tmp
+    mkdir -p "$HOME"/.mergerfs-tmp
+
 
 echo "Stopping service files..."
     systemctl --user disable --now mergerfs.service
@@ -29,7 +32,6 @@ echo "Removing service files and old binaries for upgrade..."
     rm rclone*
 
 echo "Installing rclone..."
-    mkdir -p "$HOME"/.rclone-tmp
     cd "$HOME"/.rclone-tmp || exit
     wget https://downloads.rclone.org/v1.50.2/rclone-v1.50.2-linux-amd64.zip -O "$HOME"/.rclone-tmp/rclone.zip
     unzip rclone.zip
@@ -40,10 +42,10 @@ echo ""
 sleep 2
 
 echo "Done. Installing mergerfs..."
-    mkdir -p "$HOME"/tmp
-    wget https://github.com/trapexit/mergerfs/releases/download/2.28.3/mergerfs_2.28.3.debian-stretch_amd64.deb -O "$HOME"/tmp/mergerfs.deb
-    dpkg -x "$HOME"/tmp/mergerfs.deb "$HOME"/tmp
-    mv "$HOME"/tmp/usr/bin/* "$HOME"/bin
+    cd "$HOME"/.mergerfs-tmp || exit
+    wget https://github.com/trapexit/mergerfs/releases/download/2.28.3/mergerfs_2.28.3.debian-stretch_amd64.deb -O "$HOME"/.mergerfs-tmp/mergerfs.deb
+    dpkg -x "$HOME"/.mergerfs-tmp/mergerfs.deb "$HOME"/.mergerfs-tmp
+    mv "$HOME"/.mergerfs-tmp/usr/bin/* "$HOME"/bin
     command -v mergerfs
     mergerfs -v
 echo ""
@@ -72,8 +74,8 @@ echo "Starting services..."
     systemctl --user enable --now rclone-uploader.timer
 
 echo "Script cleanup..."
-    rm -rf "$HOME"/.rclone-tmp
-        rm -rf "$HOME"/tmp
+    rm -rfv "$HOME"/.rclone-tmp
+    rm -rfv "$HOME"/.mergerfs-tmp
 
 echo ""
 sleep 5

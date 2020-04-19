@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Rclone VFS/MergerFS Installer/Updater Script by Xan#7777
+# Tested on USB. Your provider setup may vary.
 
 echo "Creating necessary folders..."
     mkdir -p "$HOME"/Stuff

@@ -31,6 +31,8 @@ echo "Removing service files and old binaries for upgrade..."
     rm mergerfs
     cd "$HOME"/scripts
     rm rclone*
+    rm -rfv "$HOME"/.rclone-tmp/*
+    rm -rfv "$HOME"/.mergerfs-tmp/*
 
 echo "Installing rclone..."
     cd "$HOME"/.rclone-tmp || exit

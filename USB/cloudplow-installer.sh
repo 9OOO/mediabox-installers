@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Cloudplow Installer/Updater Script by Xan#7777
+# Works on USB. Not sure on others.
 
 # Run the following commands before running this
 # curl https://raw.githubusercontent.com/ultraseedbox/UltraSeedbox-Scripts/master/deluge-rtorrent/pip-install.sh | bash && exit

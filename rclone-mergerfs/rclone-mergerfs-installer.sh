@@ -53,6 +53,8 @@ sleep 2
 
 echo "Set up your rclone config..."
     rclone config
+    wait
+    cat "$HOME"/.config/rclone/rclone.conf
 echo ""
 sleep 2
 

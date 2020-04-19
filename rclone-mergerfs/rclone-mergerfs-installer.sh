@@ -51,6 +51,11 @@ echo "Done. Installing mergerfs..."
 echo ""
 sleep 2
 
+echo "Set up your rclone config..."
+    rclone config
+echo ""
+sleep 2
+
 echo "Done. Downloading service files..."
     sleep 2
     cd "$HOME"/.config/systemd/user || exit

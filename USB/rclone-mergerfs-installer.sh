@@ -12,7 +12,6 @@ echo "Creating necessary folders..."
     mkdir -p "$HOME"/.rclone-tmp
     mkdir -p "$HOME"/.mergerfs-tmp
 
-
 echo "Stopping service files..."
     systemctl --user disable --now mergerfs.service
     systemctl --user disable --now rclone-vfs.service
@@ -42,7 +41,6 @@ echo "Installing rclone..."
     command -v rclone
     rclone version
 echo ""
-sleep 2
 
 echo "Done. Installing mergerfs..."
     cd "$HOME"/.mergerfs-tmp || exit
@@ -52,14 +50,24 @@ echo "Done. Installing mergerfs..."
     command -v mergerfs
     mergerfs -v
 echo ""
-sleep 2
 
 echo "Set up your rclone config..."
-    rclone config &
-    wait $!
-    cat "$HOME"/.config/rclone/rclone.conf
+echo "rclone config will be executed."
+echo "Please setup your remotes before continuing."
+echo "Also take note of your remote name..."
+    sleep 3
+    rclone config
+    wait
 echo ""
-sleep 2
+
+echo "Name of remote? Type below and press Enter."
+    read -r remotename
+    sleep 2
+    echo ""
+    echo ""
+    echo "Your remote name is $remotename."
+    echo "This will be appended to your rclone mount service files..."
+    echo ""
 
 echo "Done. Downloading service files..."
     sleep 2
@@ -67,6 +75,7 @@ echo "Done. Downloading service files..."
     wget https://raw.githubusercontent.com/ultraseedbox/UltraSeedbox-Scripts/master/MergerFS-Rclone/Service%20Files/rclone-vfs.service
     wget https://raw.githubusercontent.com/ultraseedbox/UltraSeedbox-Scripts/master/MergerFS-Rclone/Service%20Files/mergerfs.service
     sed -i "s#/homexx/yyyyy#$HOME#g" "$HOME"/.config/systemd/user/rclone-vfs.service
+    sed -i "s#gdrive:#$remotename:#g" "$HOME"/.config/systemd/user/rclone-vfs.service
     sed -i "s#/homexx/yyyyy#$HOME#g" "$HOME"/.config/systemd/user/mergerfs.service
 
 # Upload Script Download
@@ -74,7 +83,7 @@ echo "Done. Downloading service files..."
     wget https://raw.githubusercontent.com/ultraseedbox/UltraSeedbox-Scripts/master/MergerFS-Rclone/Upload%20Scripts/rclone-uploader.service
     wget https://raw.githubusercontent.com/ultraseedbox/UltraSeedbox-Scripts/master/MergerFS-Rclone/Upload%20Scripts/rclone-uploader.timer
     sed -i "s#/homexx/yyyyy#$HOME#g" "$HOME"/.config/systemd/user/rclone-uploader.service
-    echo "Starting Upload script..."
+    sed -i "s#gdrive:#$remotename:#g" "$HOME"/.config/systemd/user/rclone-uploader.service
 
 echo "Starting services..."
     systemctl --user daemon-reload

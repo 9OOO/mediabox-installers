@@ -1,9 +1,10 @@
 #!/bin/bash
 
 # EPMS Installer/Updater by Liara#9557 and Xan#7777
+# Reworked for Whatbox
 
-plugindir=$HOME/.config/plex/Library/Application\ Support/Plex\ Media\ Server/Plug-ins/
-scannerdir=$HOME/.config/plex/Library/Application\ Support/Plex\ Media\ Server/Scanners/Series
+plugindir=$HOME/Library/Application\ Support/Plex\ Media\ Server/Plug-ins/
+scannerdir=$HOME/Library/Application\ Support/Plex\ Media\ Server/Scanners/Series
 
 if [ ! -d "$HOME/.config/plex/" ];
 then

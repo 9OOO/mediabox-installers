@@ -35,7 +35,7 @@ echo "Removing service files and old binaries for upgrade..."
 
 echo "Installing rclone..."
     cd "$HOME"/.rclone-tmp || exit
-    wget https://downloads.rclone.org/v1.50.2/rclone-v1.50.2-linux-amd64.zip -O "$HOME"/.rclone-tmp/rclone.zip
+    wget https://downloads.rclone.org/rclone-current-linux-amd64.zip -O "$HOME"/.rclone-tmp/rclone.zip
     unzip rclone.zip
     cp "$HOME"/.rclone-tmp/rclone-v*/rclone "$HOME"/bin
     command -v rclone

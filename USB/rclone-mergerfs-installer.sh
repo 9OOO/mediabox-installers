@@ -3,6 +3,13 @@
 # Rclone VFS/MergerFS Installer/Updater Script by Xan#7777
 # Tested on USB. Your provider setup may vary.
 
+printf "\033[0;31mDisclaimer: Don't blame me if this nuked your setup or something...\033[0m\n"
+read -r -p "Type confirm if you wish to continue: " input
+if [ ! "$input" = "confirm" ]
+then
+    exit
+fi
+
 echo "Creating necessary folders..."
     mkdir -p "$HOME"/Stuff
     mkdir -p "$HOME"/Stuff/Local
@@ -78,8 +85,7 @@ echo "Done. Downloading service files..."
     sed -i "s#gdrive:#$remotename:#g" "$HOME"/.config/systemd/user/rclone-vfs.service
     sed -i "s#/homexx/yyyyy#$HOME#g" "$HOME"/.config/systemd/user/mergerfs.service
 
-# Upload Script Download
-    echo "Installing upload script..."
+echo "Installing uploader..."
     wget https://raw.githubusercontent.com/ultraseedbox/UltraSeedbox-Scripts/master/MergerFS-Rclone/Upload%20Scripts/rclone-uploader.service
     wget https://raw.githubusercontent.com/ultraseedbox/UltraSeedbox-Scripts/master/MergerFS-Rclone/Upload%20Scripts/rclone-uploader.timer
     sed -i "s#/homexx/yyyyy#$HOME#g" "$HOME"/.config/systemd/user/rclone-uploader.service
@@ -97,8 +103,8 @@ echo "Script cleanup..."
     rm -rfv "$HOME"/.mergerfs-tmp
 
 echo ""
-sleep 5
 echo ""
 echo "Done."
 cd "$HOME" || exit
+rm -- "$0"
 exit

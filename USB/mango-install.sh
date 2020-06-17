@@ -16,12 +16,12 @@ chown "$USER":"$USER" "$HOME"/bin/mango
 
 # Generate Config file
 clear
-echo "Testing Mango Install. Type Y when prompted to continue."
+echo "Testing Mango Install..."
 echo "Get generated credentials shown here to login to your mango instance for the first time."
 echo "Do not forget to change it afterwards."
 echo ""
 sleep 1
-timeout 7 mango
+timeout 10 "$HOME"/bin/mango
 
 # Unused Port Picker
 clear
@@ -49,14 +49,14 @@ fi
 # Set NGINX conf
 clear 
 echo "Please wait..."
+app-nginx uninstall
+app-nginx install
 echo 'location /mango/ {
     proxy_pass http://localhost:<port>/;
 }' > "$HOME/.apps/nginx/proxy.d/mango.conf"
 sed  -i "s|<port>|$port|g" "$HOME"/.apps/nginx/proxy.d/mango.conf
 
 # Set systemd service
-app-nginx uninstall
-app-nginx install
 echo "[Unit]
 Description=Mango manga server
 After=network.target
@@ -73,7 +73,7 @@ WantedBy=default.target" > "$HOME/.config/systemd/user/mango.service"
 # Sed Config
 sed  -i "s|port: 9000|port: $port|g" "$HOME"/.config/mango/config.yml
 sed  -i "s|base_url: \/|base_url: \/mango|g" "$HOME"/.config/mango/config.yml
-sed  -i "s|library_path: ~\/mango\/library|library_path: $HOME\/MergerFS\/Media\/Comics\/Manga|g" "$HOME"/.config/mango/config.yml
+sed  -i "s|library_path: $HOME\/mango\/library|library_path: $HOME\/MergerFS\/Media\/Comics\/Manga|g" "$HOME"/.config/mango/config.yml
 
 # Starting services and exit
 app-nginx restart

@@ -11,7 +11,7 @@ fi
 
 # Download Mango
 clear
-curl -s https://api.github.com/repos/hkalexling/Mango/releases/latest | grep -oP '"browser_download_url": "\K(.*)(?=")' | wget  -O "$HOME"/bin/mango
+curl -s https://api.github.com/repos/hkalexling/Mango/releases/latest | grep -oP '"browser_download_url": "\K(.*)(?=")' | wget -i - -O "$HOME"/bin/mango
 chmod +x "$HOME"/bin/mango
 chown "$USER":"$USER" "$HOME"/bin/mango
 

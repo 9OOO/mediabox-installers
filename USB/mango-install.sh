@@ -27,6 +27,7 @@ timeout 7 mango
 clear
 app-ports show
 
+echo ""
 echo "Pick any application from this list that you're not currently using."
 echo "We'll be using this port for The Lounge."
 echo "For example, you chose SickRage so type in 'sickrage'. Please type it in full name."
@@ -36,6 +37,7 @@ read -r appname
 proper_app_name=$(app-ports show | grep -i "$appname" | cut -c 7-)
 port=$(app-ports show | grep -i "$appname" | cut -b -5)
 
+echo ""
 echo "Are you sure you want to use $proper_app_name's port? type 'confirm' to proceed."
 read -r input
 
@@ -45,6 +47,8 @@ then
 fi
 
 # Set NGINX conf
+clear 
+echo "Please wait..."
 echo 'location /mango/ {
     proxy_pass http://localhost:<port>/;
 }' > "$HOME/.apps/nginx/proxy.d/mango.conf"
@@ -67,9 +71,9 @@ ExecStart=$HOME/bin/mango
 WantedBy=default.target" > "$HOME/.config/systemd/user/mango.service"
 
 # Sed Config
-sed  -i "s|port: 9000|port: $port|g" "$HOME"/mango/.config/config.yml
-sed  -i "s|base_url: \/|base_url: \/mango|g" "$HOME"/mango/.config/config.yml
-sed  -i "s|library_path: ~\/mango\/library|library_path: $HOME\/MergerFS\/Media\/Comics\/Manga|g" "$HOME"/mango/.config/config.yml
+sed  -i "s|port: 9000|port: $port|g" "$HOME"/.config/mango/config.yml
+sed  -i "s|base_url: \/|base_url: \/mango|g" "$HOME"/.config/mango/config.yml
+sed  -i "s|library_path: ~\/mango\/library|library_path: $HOME\/MergerFS\/Media\/Comics\/Manga|g" "$HOME"/.config/mango/config.yml
 
 # Starting services and exit
 app-nginx restart

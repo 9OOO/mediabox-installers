@@ -3,7 +3,7 @@
 # Mango Installer by Xan#7777
 
 printf "\033[0;31mDisclaimer: Don't blame me if this nuked your setup or something...\033[0m\n"
-read -r "Type confirm if you wish to continue: " input
+read -r -p "Type confirm if you wish to continue: " input
 if [ ! "$input" = "confirm" ]
 then
     exit
@@ -78,4 +78,5 @@ systemctl --user enable --now mango.service
 clear
 echo "Installation complete."
 echo "You can access it via https://$USER.$HOSTNAME.usbx.me/mango"
+rm -- "$0"
 exit

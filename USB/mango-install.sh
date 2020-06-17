@@ -10,18 +10,20 @@ then
 fi
 
 # Download Mango
-curl -s https://api.github.com/repos/hkalexling/Mango/releases/latest | grep -oP '"browser_download_url": "\K(.*)(?=")' | wget -i - -O "$HOME"/bin/mango
+clear
+curl -s https://api.github.com/repos/hkalexling/Mango/releases/latest | grep -oP '"browser_download_url": "\K(.*)(?=")' | wget  -O "$HOME"/bin/mango
 chmod +x "$HOME"/bin/mango
 chown "$USER":"$USER" "$HOME"/bin/mango
 
 # Generate Config file
 clear
-echo "Testing Mango Install..."
+echo "Testing Mango Install. Enter y to generate config."
 echo "Get generated credentials shown here to login to your mango instance for the first time."
-echo "Do not forget to change it afterwards."
+echo "CTRL + C when you get the credentials and do not forget to change it afterwards."
 echo ""
 sleep 1
-timeout 10 "$HOME"/bin/mango
+"$HOME"/bin/mango
+wait
 
 # Unused Port Picker
 clear
